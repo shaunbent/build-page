@@ -1,0 +1,354 @@
+/*------------------------------------*\
+    BBC Sport
+\*------------------------------------*/
+
+/**
+ * A fun little coding challenge for the BBC Sport Front End Developer role.
+ * This style sheet contains the bulk of the styles but also includes a Sass
+ * partial which contains some basic reset stuff, and a few helpful little mixins
+ *
+ * Author: Shaun Bent
+ */
+
+/*------------------------------------*\
+    Contents
+\*------------------------------------*/
+/**
+ * Settings
+ * Base
+ * Helpers
+ * Wrap
+ * Header
+ * Headlines
+ * Articles
+ */
+
+/*------------------------------------*\
+    Settings
+\*------------------------------------*/
+
+/**
+ * Legacy browser stuff
+ */
+$fix-mqs: false !default;
+
+/**
+ * Colour settings
+ */
+$color--yellow: rgb(255,231,16);
+$color--grey: rgb(224,224,224);
+$color--light-grey: rgb(115,115,115);
+$color--black: rgb(51,51,51);
+$color--white: rgb(255,255,255);
+$color--green: rgb(77,121,51);
+
+/**
+ * Lets remap the colours to something more friendly
+ */
+$background-color: $color--grey;
+$text-color: $color--light-grey;
+$heading-color: $color--black;
+$header-color: $color--yellow;
+$category-color: $color--green;
+
+/**
+ * Sizing
+ */
+$base-sizing-unit: 16px;
+$half-sizing-unit: $base-sizing-unit / 2;
+
+$small-sizing-unit: $half-sizing-unit / 2;
+$large-sizing-unit: $half-sizing-unit;
+
+/**
+ * Type
+ */
+$base-font-size: 16;
+$base-line-height: 19;
+
+/**
+ * Responsive magic aka the `Breakpoints`
+ */
+$bp--smallest: 20em; /* 320px */
+$bp--small: 25em; /* 400px */
+$bp--medium: 37.5em; /* 600px */
+$bp--large: 63em; /* 1008px */
+
+/**
+ * Whats the max width of our container
+ */
+$max-width: 1008px;
+
+/*------------------------------------*\
+    Base
+\*------------------------------------*/
+
+/**
+ * Import the base partial that contains a minimal reset 
+ * and a few rather helpful mixins
+ */
+@import "base";
+
+/*------------------------------------*\
+    Helpers
+\*------------------------------------*/
+
+/**
+ * A generic placeholder that will apply consistant spacing
+ * to any element its applied to. Amount of spacing is increased
+ * at the medium breakpoint
+ */
+%spaced {
+	@include rem( 'padding', $small-sizing-unit );
+
+	@include respond-min( $bp--medium ) {
+		@include rem( 'padding', $large-sizing-unit );
+	}
+}
+
+/**
+ * A nice clearfix that can be extended
+ */
+%cf {
+  zoom: 1;
+    
+  &:before,
+  &:after{
+    content: "";
+    display: table;
+  }
+    
+  &:after{
+    clear: both;
+  }
+}
+
+/*------------------------------------*\
+    Wrap
+\*------------------------------------*/
+
+/**
+ * A containing element which centres and adds the max width
+ *
+ */
+.wrap {
+	max-width: $max-width;
+	margin: 0 auto;
+
+	.lt-ie9 & {
+		width: $max-width;
+	}
+}
+
+/*------------------------------------*\
+    Header
+\*------------------------------------*/
+
+/**
+ * The global header
+ */
+.global-header {
+	@extend %spaced;
+
+	background-color: $header-color;
+
+	h1 {
+		@extend %spaced;
+
+		margin-bottom: 0;
+
+		font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+		font-weight: normal;
+		text-transform: uppercase;
+		@include font-size( 40 );
+	}
+}
+
+/*------------------------------------*\
+    Headlines
+\*------------------------------------*/
+
+/**
+ * A wrapping element for all the headline articles.
+ *
+ * 1. Set the font size to zero so remove the space between inline-block elements
+ */
+.headlines {
+	@extend %spaced;
+
+	background-color: $color--white;
+
+	@include respond-min( $bp--small ) {
+		font-size: 0; /* [1] */
+	}
+}
+
+/*------------------------------------*\
+    Articles
+\*------------------------------------*/
+
+/**
+ * The individual articles
+ *
+ * 1. Give us a relative containers so we can absolutely position
+ *    the category tag on larger breakpoints
+ * 2. Remove text-decoration from all text elements, we'll put it
+ *    back on the article title manually - that way the entire article is clickable
+ * 3. I prefer inline-block instead of floats so you don't have to worry
+ *    yourself with clearing things
+ * 4. Best put the font size back to 100%
+ * 5. IE7 doesn't support border-box and gets all confused when you give it some padding
+ *    so we need to give it a slightly adjusted width value
+ */
+.article {
+	@extend %spaced;
+	@extend %cf;
+
+	position: relative; /* [1] */
+
+	a {
+		display: block;
+
+		&:hover,
+		&:focus {
+			text-decoration: none; /* [2] */
+		}
+	}
+	
+	@include respond-min( $bp--small ) {	
+		display: inline-block; /* [3] */
+		width: 50%;
+		@include font-size( $base-font-size ); /* [4] */
+		vertical-align: top;
+	}
+	
+	@include respond-min( $bp--medium ) {
+		width: 33.333%;
+	}
+
+	.lt-ie8 & {
+		width: 31.7%; /* [5] */
+	}
+}
+
+/**
+ * A little bit of bespoke styling for the first article,
+ * this is only really used on the smallest breakpoint
+ */
+.article--first {
+	@include rem( 'margin-bottom', $base-sizing-unit );
+
+	& .article__media,
+	& .article__header {
+		float: none;
+		width: auto;
+	}
+
+	& .article__media {
+		@include rem( 'margin-bottom', $half-sizing-unit );
+		padding-right: 0;
+	}
+
+	& .article__excerpt {
+		display: block;
+	}
+}
+
+/**
+ * Stylings for the article media, a specific fluid width at smaller
+ * sizes and just letting it do its stuff at larger sizes
+ */
+.article__media {
+	float: left;
+	width: 42.5%;
+	@include rem( 'padding-right', $half-sizing-unit );
+
+	@include respond-min( $bp--small ) {
+		float: none;
+		width: auto;
+		@include rem( 'margin-bottom', $half-sizing-unit );
+		padding-right: 0;
+	}
+}
+
+/**
+ * As with the media, a specific fluid width at smaller sizes and a little
+ * bit of freedom at larger breakpoints
+ */
+.article__header {
+	float: left;
+	width: 57.5%;
+
+	@include respond-min( $bp--small ) {
+		float: none;
+		width: auto;
+	}
+}
+
+/**
+ * Styling for the article title
+ *
+ * 1. Tweaked letter spacing as per GEL guidelines on type
+ * 2. Add the underline back on the title on hover & focus
+ */
+.article-header__title {
+	@include rem( 'margin-bottom', $half-sizing-unit );
+
+	@include font-size( 20px );
+	line-height: 1.1;
+	letter-spacing: -1px;  /* [1] */
+	color: $heading-color;
+
+	.article a:hover &,
+	.article a:focus & {
+		text-decoration: underline; /* [2] */
+	}
+}
+
+/**
+ * The article category is displayed inline on the smallest breakpoint
+ * and then positioned absolutly over the media.
+ *
+ * 1. `top` & `left` values equal to the amount of padding on
+ *		the containing element
+ * 2. Give the category a little room to breath with small amount of padding
+ * 3. We need to adjust the `top` & `left` values as the padding on
+ *	  the containing element increases at the medium breakpoint
+ */
+.article-header__category {
+	display: block;
+	@include rem( 'margin-bottom', $half-sizing-unit );
+
+	color: $category-color;
+	@include font-size( 12 );
+	line-height: 1;
+	text-transform: uppercase;
+
+	@include respond-min( $bp--small ) {
+		position: absolute;
+		top: $small-sizing-unit; /* [1] */
+		left: $small-sizing-unit; /* [1] */
+
+		@include rem( 'padding', $small-sizing-unit ); /* [2] */
+		margin-bottom: 0;
+
+		background-color: $color--white;
+	}
+
+	@include respond-min( $bp--medium ) {
+		top: $large-sizing-unit; /* [3] */
+		left: $large-sizing-unit; /* [3] */
+	}
+}
+
+/**
+ * We want to hide the excerpt at the smallest breakpoint
+ * but have it displayed in all other breakpoints
+ */
+.article__excerpt {
+	display: none;
+
+	@include respond-min( $bp--small ) {
+		display: block;
+	}
+}
