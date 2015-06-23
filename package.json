@@ -1,0 +1,12 @@
+{
+        "name": "BBC-Sport",
+        "version": "0.1.0",
+        "description": "Grunt build package for the BBC Sport Front End Developer Challenge",
+        "main": "Gruntfile.js",
+        "devDependencies": {
+                "grunt": "~0.4.0",
+                "grunt-contrib-sass": "~0.2.2",
+                "grunt-contrib-compass": "~0.3.0",
+                "grunt-contrib-watch": "~0.3.1"
+        }
+}

@@ -1,0 +1,211 @@
+/**
+ * This Sass partial contains the contains some basic reset stuff, 
+ * and a few helpful little mixins, which is used by the main style 
+ * sheet.
+ *
+ * Because its only small coding challenge we don't really need a 
+ * verbose reset or normalising of the style sheet.
+ *
+ * Author: Shaun Bent
+ */
+
+/*------------------------------------*\
+    Contents
+\*------------------------------------*/
+
+/**
+ * Base/Reset
+ * Mixins
+ */
+
+/*------------------------------------*\
+    Base/Reset
+\*------------------------------------*/
+
+/**
+ * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+    display: block;
+}
+
+
+/**
+ * Apply `border-box` as the `box-sizing` method to all elements
+ * so that any padding applied to element is included within the width
+ * that way we can fixed gutters within our fluid grid. Nice!
+ */
+* {
+	-webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+/**
+ * Some basic configuration on the html element
+ *
+ * 1. Font-size set to 100% so we can work with em's with 1em = 16px
+ */
+html {
+    font: 100%/1.1875 sans-serif;
+    background-color: $background-color;
+    color: $text-color;
+    overflow-y: scroll;
+}
+
+/**
+ * Remove the default `margin` which is applied to the `body` and `p` elements by those
+ * pesky browser default stylesheets.
+ */
+body,
+p {
+	margin: 0;
+
+	color: $text-color;
+}
+
+/**
+ * Remove any `margin` and `padding` from `h1` & `h2` elements,
+ * I prefare to set margin all going nicely in one direction as pair:
+ * http://csswizardry.com/2012/06/single-direction-margin-declarations/
+ */
+h1, h2 {
+    margin: 0;
+    padding: 0;
+
+    color: $heading-color;
+}
+
+/**
+ * Some nice consistant `:hover` and `:focus` effects
+ */
+a {
+	text-decoration: none;
+
+	&:hover,
+	&:focus {
+		text-decoration: underline;
+	}
+}
+
+/**
+ * Everyone loves a flexible image that has italic for alt text
+ *
+ * 1. Remove border when inside `a` element in IE 6/7/8/9 and Firefox 3.
+ */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+
+  border: 0; /* [1] */
+        
+  font-style: italic;
+}
+
+/*------------------------------------*\
+    Mixins
+\*------------------------------------*/
+
+/**
+ * 'rem' is a Sass mixin that converts pixel values to rem values for whatever property is passed to it.
+ * It returns two lines of code — one of the regular pixel values (for IE), and another with the
+ * converted rem values (for everyone else aka `the cool kids`).
+ */ 
+@mixin rem($property, $px-values) {
+
+	// Convert base-font-size to a px value
+	$base-px: $base-font-size + 0px;
+
+  // Convert the baseline into rems
+  $baseline-rem: $base-px / 1rem * 1;
+
+  // Print the first line in pixel values
+  #{$property}: $px-values;
+
+  // If there is only one (numeric) value, return the property/value line for it.
+  @if type-of($px-values) == "number" {
+      
+      #{$property}: $px-values / $baseline-rem; 
+    
+  } @else {
+    
+    // Create an empty list that we can dump values into
+    $rem-values: ();
+                
+    @each $value in $px-values {
+            
+      // If the value is zero or not a number, return it
+      @if $value == 0 or type-of( $value ) != "number" {
+              
+        $rem-values: append( $rem-values, $value );
+      
+      } @else {
+
+        $rem-values: append( $rem-values, $value / $baseline-rem ); 
+      
+      } 
+    
+    }
+
+    // Return the property and its list of converted values
+    #{$property}: $rem-values; 
+                        
+  } 
+        
+}
+
+/**
+ * Min-width media query mixin, with legacy browser support
+ */
+@mixin respond-min( $width, $type: width ) {
+
+	// Do we need fixed media queries for legacy browsers
+  @if $fix-mqs and $type == width {
+        
+    @if $fix-mqs >= $width {
+                
+      @content;
+                        
+   	}
+                
+  } @else {
+        
+	  @media screen and ( min-#{$type}: $width ) {
+                
+      @content;
+                        
+    }
+                
+	}
+        
+}
+
+/**
+ * The `font-size` mixin converts pixel valued font-sizes into lovely flexible rem values.
+ * Because we've got people rocking vintage browsers we need to give them so old skool
+ * fixed pixel values.
+ */
+@mixin font-size( $font-size ) {
+
+		// if we're playing with px lets strip them out
+    @if unit( $font-size ) == 'px' {
+                
+      $font-size: $font-size / 1px;
+                
+    }
+
+    font-size: $font-size +px;
+    font-size: ( $font-size / $base-font-size ) *1rem;
+}

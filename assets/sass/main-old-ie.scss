@@ -1,0 +1,35 @@
+/**
+ * Not everyone can be on the latest and greatest browsers will all them
+ * cool features like media queries and standards compliance so we need to
+ * serve them a little less flexible design.
+ * 
+ * This style sheet actives the fixed media queries function within the
+ * media query mxin
+ *
+ * Author: Shaun Bent
+ */
+
+/*------------------------------------*\
+    Contents
+\*------------------------------------*/
+/**
+ * Settings
+ * Layout
+ */
+
+/*------------------------------------*\
+    Settings
+\*------------------------------------*/
+
+$fix-mqs: 63em;
+
+/*------------------------------------*\
+    Layout
+\*------------------------------------*/
+
+/**
+ * Now we've set the fix media query point we just
+ * need to import the main stylesheet and Sass will do
+ * all the heavy lifting for us.
+ */
+@import "main";

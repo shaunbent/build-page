@@ -1,0 +1,444 @@
+@charset "UTF-8";
+/*------------------------------------*\
+    BBC Sport
+\*------------------------------------*/
+/**
+ * A fun little coding challenge for the BBC Sport Front End Developer role.
+ * This style sheet contains the bulk of the styles but also includes a Sass
+ * partial which contains some basic reset stuff, and a few helpful little mixins
+ *
+ * Author: Shaun Bent
+ */
+/*------------------------------------*\
+    Contents
+\*------------------------------------*/
+/**
+ * Settings
+ * Base
+ * Helpers
+ * Wrap
+ * Header
+ * Headlines
+ * Articles
+ */
+/*------------------------------------*\
+    Settings
+\*------------------------------------*/
+/**
+ * Legacy browser stuff
+ */
+/**
+ * Colour settings
+ */
+/**
+ * Lets remap the colours to something more friendly
+ */
+/**
+ * Sizing
+ */
+/**
+ * Type
+ */
+/**
+ * Responsive magic aka the `Breakpoints`
+ */
+/* 320px */
+/* 400px */
+/* 600px */
+/* 1008px */
+/**
+ * Whats the max width of our container
+ */
+/*------------------------------------*\
+    Base
+\*------------------------------------*/
+/**
+ * Import the base partial that contains a minimal reset 
+ * and a few rather helpful mixins
+ */
+/**
+ * This Sass partial contains the contains some basic reset stuff, 
+ * and a few helpful little mixins, which is used by the main style 
+ * sheet.
+ *
+ * Because its only small coding challenge we don't really need a 
+ * verbose reset or normalising of the style sheet.
+ *
+ * Author: Shaun Bent
+ */
+/*------------------------------------*\
+    Contents
+\*------------------------------------*/
+/**
+ * Base/Reset
+ * Mixins
+ */
+/*------------------------------------*\
+    Base/Reset
+\*------------------------------------*/
+/**
+ * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3.
+ */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+  display: block;
+}
+
+/**
+ * Apply `border-box` as the `box-sizing` method to all elements
+ * so that any padding applied to element is included within the width
+ * that way we can fixed gutters within our fluid grid. Nice!
+ */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/**
+ * Some basic configuration on the html element
+ *
+ * 1. Font-size set to 100% so we can work with em's with 1em = 16px
+ */
+html {
+  font: 100%/1.1875 sans-serif;
+  background-color: #e0e0e0;
+  color: #737373;
+  overflow-y: scroll;
+}
+
+/**
+ * Remove the default `margin` which is applied to the `body` and `p` elements by those
+ * pesky browser default stylesheets.
+ */
+body,
+p {
+  margin: 0;
+  color: #737373;
+}
+
+/**
+ * Remove any `margin` and `padding` from `h1` & `h2` elements,
+ * I prefare to set margin all going nicely in one direction as pair:
+ * http://csswizardry.com/2012/06/single-direction-margin-declarations/
+ */
+h1, h2 {
+  margin: 0;
+  padding: 0;
+  color: #333333;
+}
+
+/**
+ * Some nice consistant `:hover` and `:focus` effects
+ */
+a {
+  text-decoration: none;
+}
+a:hover, a:focus {
+  text-decoration: underline;
+}
+
+/**
+ * Everyone loves a flexible image that has italic for alt text
+ *
+ * 1. Remove border when inside `a` element in IE 6/7/8/9 and Firefox 3.
+ */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 0;
+  /* [1] */
+  font-style: italic;
+}
+
+/*------------------------------------*\
+    Mixins
+\*------------------------------------*/
+/**
+ * 'rem' is a Sass mixin that converts pixel values to rem values for whatever property is passed to it.
+ * It returns two lines of code — one of the regular pixel values (for IE), and another with the
+ * converted rem values (for everyone else aka `the cool kids`).
+ */
+/**
+ * Min-width media query mixin, with legacy browser support
+ */
+/**
+ * The `font-size` mixin converts pixel valued font-sizes into lovely flexible rem values.
+ * Because we've got people rocking vintage browsers we need to give them so old skool
+ * fixed pixel values.
+ */
+/*------------------------------------*\
+    Helpers
+\*------------------------------------*/
+/**
+ * A generic placeholder that will apply consistant spacing
+ * to any element its applied to. Amount of spacing is increased
+ * at the medium breakpoint
+ */
+.global-header, .global-header h1, .headlines, .article {
+  padding: 4px;
+  padding: 0.25rem;
+}
+@media screen and (min-width: 37.5em) {
+  .global-header, .global-header h1, .headlines, .article {
+    padding: 8px;
+    padding: 0.5rem;
+  }
+}
+
+/**
+ * A nice clearfix that can be extended
+ */
+.article {
+  zoom: 1;
+}
+.article:before, .article:after {
+  content: "";
+  display: table;
+}
+.article:after {
+  clear: both;
+}
+
+/*------------------------------------*\
+    Wrap
+\*------------------------------------*/
+/**
+ * A containing element which centres and adds the max width
+ *
+ */
+.wrap {
+  max-width: 1008px;
+  margin: 0 auto;
+}
+.lt-ie9 .wrap {
+  width: 1008px;
+}
+
+/*------------------------------------*\
+    Header
+\*------------------------------------*/
+/**
+ * The global header
+ */
+.global-header {
+  background-color: #ffe710;
+}
+.global-header h1 {
+  margin-bottom: 0;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 40px;
+  font-size: 2.5rem;
+}
+
+/*------------------------------------*\
+    Headlines
+\*------------------------------------*/
+/**
+ * A wrapping element for all the headline articles.
+ *
+ * 1. Set the font size to zero so remove the space between inline-block elements
+ */
+.headlines {
+  background-color: white;
+}
+@media screen and (min-width: 25em) {
+  .headlines {
+    font-size: 0;
+    /* [1] */
+  }
+}
+
+/*------------------------------------*\
+    Articles
+\*------------------------------------*/
+/**
+ * The individual articles
+ *
+ * 1. Give us a relative containers so we can absolutely position
+ *    the category tag on larger breakpoints
+ * 2. Remove text-decoration from all text elements, we'll put it
+ *    back on the article title manually - that way the entire article is clickable
+ * 3. I prefer inline-block instead of floats so you don't have to worry
+ *    yourself with clearing things
+ * 4. Best put the font size back to 100%
+ * 5. IE7 doesn't support border-box and gets all confused when you give it some padding
+ *    so we need to give it a slightly adjusted width value
+ */
+.article {
+  position: relative;
+  /* [1] */
+}
+.article a {
+  display: block;
+}
+.article a:hover, .article a:focus {
+  text-decoration: none;
+  /* [2] */
+}
+@media screen and (min-width: 25em) {
+  .article {
+    display: inline-block;
+    /* [3] */
+    width: 50%;
+    font-size: 16px;
+    font-size: 1rem;
+    /* [4] */
+    vertical-align: top;
+  }
+}
+@media screen and (min-width: 37.5em) {
+  .article {
+    width: 33.333%;
+  }
+}
+.lt-ie8 .article {
+  width: 31.7%;
+  /* [5] */
+}
+
+/**
+ * A little bit of bespoke styling for the first article,
+ * this is only really used on the smallest breakpoint
+ */
+.article--first {
+  margin-bottom: 16px;
+  margin-bottom: 1rem;
+}
+.article--first .article__media, .article--first .article__header {
+  float: none;
+  width: auto;
+}
+.article--first .article__media {
+  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
+  padding-right: 0;
+}
+.article--first .article__excerpt {
+  display: block;
+}
+
+/**
+ * Stylings for the article media, a specific fluid width at smaller
+ * sizes and just letting it do its stuff at larger sizes
+ */
+.article__media {
+  float: left;
+  width: 42.5%;
+  padding-right: 8px;
+  padding-right: 0.5rem;
+}
+@media screen and (min-width: 25em) {
+  .article__media {
+    float: none;
+    width: auto;
+    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
+    padding-right: 0;
+  }
+}
+
+/**
+ * As with the media, a specific fluid width at smaller sizes and a little
+ * bit of freedom at larger breakpoints
+ */
+.article__header {
+  float: left;
+  width: 57.5%;
+}
+@media screen and (min-width: 25em) {
+  .article__header {
+    float: none;
+    width: auto;
+  }
+}
+
+/**
+ * Styling for the article title
+ *
+ * 1. Tweaked letter spacing as per GEL guidelines on type
+ * 2. Add the underline back on the title on hover & focus
+ */
+.article-header__title {
+  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
+  font-size: 20px;
+  font-size: 1.25rem;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  /* [1] */
+  color: #333333;
+}
+.article a:hover .article-header__title, .article a:focus .article-header__title {
+  text-decoration: underline;
+  /* [2] */
+}
+
+/**
+ * The article category is displayed inline on the smallest breakpoint
+ * and then positioned absolutly over the media.
+ *
+ * 1. `top` & `left` values equal to the amount of padding on
+ *		the containing element
+ * 2. Give the category a little room to breath with small amount of padding
+ * 3. We need to adjust the `top` & `left` values as the padding on
+ *	  the containing element increases at the medium breakpoint
+ */
+.article-header__category {
+  display: block;
+  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
+  color: #4d7933;
+  font-size: 12px;
+  font-size: 0.75rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+@media screen and (min-width: 25em) {
+  .article-header__category {
+    position: absolute;
+    top: 4px;
+    /* [1] */
+    left: 4px;
+    /* [1] */
+    padding: 4px;
+    padding: 0.25rem;
+    /* [2] */
+    margin-bottom: 0;
+    background-color: white;
+  }
+}
+@media screen and (min-width: 37.5em) {
+  .article-header__category {
+    top: 8px;
+    /* [3] */
+    left: 8px;
+    /* [3] */
+  }
+}
+
+/**
+ * We want to hide the excerpt at the smallest breakpoint
+ * but have it displayed in all other breakpoints
+ */
+.article__excerpt {
+  display: none;
+}
+@media screen and (min-width: 25em) {
+  .article__excerpt {
+    display: block;
+  }
+}
